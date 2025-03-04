@@ -41,7 +41,7 @@ fun HomeScreen(
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp)
     ) {
-        TrendingMoviesCarousel()
+
     }
 }
 
@@ -61,7 +61,7 @@ fun TrendingMoviesCarousel(modifier: Modifier = Modifier) {
 
     HorizontalMultiBrowseCarousel(
         state = rememberCarouselState { items.count() },
-        modifier = Modifier.width(412.dp).height(221.dp),
+        modifier = modifier.width(412.dp).height(221.dp),
         preferredItemWidth = screenWidth,
         itemSpacing = 16.dp,
         contentPadding = PaddingValues(16.dp)

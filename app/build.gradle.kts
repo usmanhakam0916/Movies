@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.coil3.coil.compose)
+    implementation(libs.retrofit)
+    implementation(libs.converter.scalars)
     implementation(libs.coil.network.okhttp)
     implementation(libs.compose.material3)
     testImplementation(libs.junit)
