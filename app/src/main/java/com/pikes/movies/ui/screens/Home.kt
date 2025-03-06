@@ -2,7 +2,6 @@ package com.pikes.movies.ui.screens
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -33,58 +34,60 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.pikes.movies.R
 import com.pikes.movies.ui.theme.MoviesTheme
+import com.pikes.movies.ui.viewmodel.MoviesViewModel
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    moviesViewModel: MoviesViewModel,
+    modifier: Modifier = Modifier,
 ) {
+    val movies by moviesViewModel.moviesUiState.collectAsState()
     Column(
-        modifier = modifier.fillMaxSize().padding(16.dp)
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-
+        TrendingMoviesCarousel()
     }
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrendingMoviesCarousel(modifier: Modifier = Modifier) {
+fun TrendingMoviesCarousel(
+    modifier: Modifier = Modifier
+) {
     val items = listOf(
-        R.drawable.movie,
-        R.drawable.movie,
-        R.drawable.movie,
-        R.drawable.movie,
-        R.drawable.movie
+        R.drawable.movie, R.drawable.movie, R.drawable.movie, R.drawable.movie, R.drawable.movie
     )
 
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp  // Get screen width
 
     HorizontalMultiBrowseCarousel(
         state = rememberCarouselState { items.count() },
-        modifier = modifier.width(412.dp).height(221.dp),
+        modifier = modifier
+            .width(412.dp)
+            .height(221.dp),
         preferredItemWidth = screenWidth,
         itemSpacing = 16.dp,
         contentPadding = PaddingValues(16.dp)
     ) { i ->
         val item = items[i]
-        Box(
-
-        ) {
-            Image(
-                modifier = Modifier.height(205.dp).maskClip(MaterialTheme.shapes.extraLarge),
-                painter = painterResource(item),
-                contentDescription = null,
-                contentScale = ContentScale.Crop
-            )
-        }
+        Image(
+            modifier = Modifier
+                .height(205.dp)
+                .maskClip(MaterialTheme.shapes.extraLarge),
+            painter = painterResource(item),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
     }
 }
 
 
 @Composable
 fun MoviesCategoryTitle(
-    @StringRes text: Int,
-    modifier: Modifier = Modifier
+    @StringRes text: Int, modifier: Modifier = Modifier
 ) {
     Text(
         modifier = modifier,
@@ -95,8 +98,7 @@ fun MoviesCategoryTitle(
 
 @Composable
 fun MoviesBannerCard(
-    imageUrl: String,
-    modifier: Modifier = Modifier
+    imageUrl: String, modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
@@ -105,15 +107,12 @@ fun MoviesBannerCard(
             .height(200.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp,
-            pressedElevation = 8.dp
+            defaultElevation = 4.dp, pressedElevation = 8.dp
         )
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://image.tmdb.org/t/p/w500${imageUrl}")
-                .crossfade(true)
-                .build(),
+                .data("https://image.tmdb.org/t/p/w500${imageUrl}").crossfade(true).build(),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -123,8 +122,7 @@ fun MoviesBannerCard(
 
 @Composable
 fun MoviesRow(
-    bannerUrlList: List<String>,
-    modifier: Modifier = Modifier
+    bannerUrlList: List<String>, modifier: Modifier = Modifier
 ) {
     LazyRow(modifier = modifier) {
         items(bannerUrlList) { bannerUrl ->

@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.converter.scalars)
     implementation(libs.coil.network.okhttp)
     implementation(libs.compose.material3)
+    implementation(libs.lifecycle.viewmodel)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
